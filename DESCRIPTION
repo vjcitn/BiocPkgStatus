@@ -1,0 +1,23 @@
+Package: BiocPkgStatus
+Date: 2022-11-11
+Title: Work with a database of information on status of Bioconductor packages
+Version: 0.0.0
+Authors@R: 
+    c(person(
+        "Vincent", "Carey", role = c("aut", "cre"),
+        email = "stvjc@channing.harvard.edu",
+        comment = c(ORCID = "0000-0003-4046-0063")
+     )
+    )
+Description: This package works with a prototypical longitudinal
+	database of information on outcomes of R CMD check and BiocCheck
+	applied to over 2000 Bioconductor software packages of release 3.17.
+License: Artistic-2.0
+Encoding: UTF-8
+Depends: R (>= 4.2), dplyr, RSQLite, DBI
+Suggests: knitr, testthat, BiocStyle
+VignetteBuilder: knitr
+biocViews: Infrastructure
+RoxygenNote: 7.2.1
+URL: https://github.com/vjcitn/BiocPkgStatus
+BugReports: https://github.com/vjcitn/BiocPkgStatus/issues

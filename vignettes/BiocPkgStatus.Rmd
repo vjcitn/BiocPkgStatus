@@ -1,0 +1,56 @@
+---
+title: "BiocPkgStatus: longitudinal database of package check outcomes"
+author: "Vincent J. Carey, stvjc at channing.harvard.edu"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{BiocPkgStatus: longitudinal database of package check outcomes}
+  %\VignetteEncoding{UTF-8}
+output:
+  BiocStyle::html_document:
+    highlight: pygments
+    number_sections: yes
+    theme: united
+    toc: yes
+---
+
+```{r setup,message=FALSE,results="hide",echo=FALSE}
+library(BiocPkgStatus)
+```
+
+# Introduction
+
+The BiocBuildTools package (github: vjcitn/BiocBuildTools) has prototypical
+code for checking all packages and storing results in SQLite.
+
+To get a version of the database,
+point a  browser to [https://tinyurl.com/3hbvaejj](https://tinyurl.com/3hbvaejj) and download the SQLite
+file found there.
+
+Set environment variable BIOC_PKG_STATUS_SQLITE to the path where the SQLite file was stored.
+
+# Basic queries
+
+We work with the database as follows:
+
+```{r do1}
+library(BiocPkgStatus)
+con = status_db()
+con |> dbListTables()
+```
+
+The `basic` table has a listing of package commit and check times.
+```{r lkbasic}
+con |> tbl("basic") |> head(10)
+con |> tbl("basic") |> filter(package=="parody")
+```
+
+Tables `error`, `warnings` and `notes` are from `rcmdcheck::rcmdcheck` applied
+with no additional parameters.  `desc` contains data from DESCRIPTION for
+each package at time of check.  `BcChkERR` and `BcChkWARN` are from
+BiocCheck::BiocCheck.
+
+```{r lkbc}
+con |> tbl("BcChkERR") |> filter(type=="checkVigInstalls")
+RSQLite::dbDisconnect(con)
+```
